@@ -1,0 +1,89 @@
+name: Plugin CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: plugin-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TESSERA_TREE: ${{ github.workspace }}/core
+  TESSERA_MANIFEST: ${{ github.workspace }}/core/screen_manager/app/plugin_manifest.py
+  TESSERA_BOARDS: ${{ github.workspace }}/core/screen_manager/app/boards.json
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: plugin
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: MaxGramser/homeassistant_espscreen
+          ref: 6943c3138e4523aff13bd1f0f1d8f0b8dab45dd0
+          path: core
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: MaxGramser/tessera-plugins
+          ref: a625674da86a6f2ba7577626407c26224ca9378c
+          path: tools
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install test dependencies
+        run: python -m pip install 'PyYAML>=6,<7' 'aiohttp>=3.12,<4'
+      - name: Validate plugin
+        run: python tools/tools/check.py plugin
+      - name: Test data mapping
+        run: python -m unittest discover -s plugin/tests -v
+
+  guition-preview:
+    needs: check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: plugin
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: MaxGramser/homeassistant_espscreen
+          ref: 6943c3138e4523aff13bd1f0f1d8f0b8dab45dd0
+          path: core
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: MaxGramser/tessera-plugins
+          ref: a625674da86a6f2ba7577626407c26224ca9378c
+          path: tools
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install simulator dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libsdl2-dev pkg-config
+          python tools/tools/preview.py --setup
+      - name: Compile and check Guition layouts
+        run: python tools/tools/preview.py plugin --board guition --grid 1x3 --strict --out preview-results
+      - name: Upload preview report and images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: guition-preview
+          path: preview-results/
+          retention-days: 7
+          if-no-files-found: warn

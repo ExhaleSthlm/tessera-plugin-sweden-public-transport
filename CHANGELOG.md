@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+- Compact data attribution shares the last departure row on wide tiles, freeing vertical space.
+- Wide tiles also show departure lists in a one-column grid (including Guition 1x3).
+- Rebuild and install the screen firmware to apply the layout change.
+
 ## 0.1.0
 - First beta: Swedish departures from Trafiklab Timetables.
 - Independent stop, two line filters, transport mode and destination per tile.

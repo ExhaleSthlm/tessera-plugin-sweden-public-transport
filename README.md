@@ -11,7 +11,7 @@ Swedish and English translations are included. This beta requires Tessera plugin
 3. Add the plugin to the intended screen and build its firmware. This updates the screen; allow time for the build.
 4. Enter the API key in the plugin's secret **Trafiklab API key** input. Never put it in YAML or Git.
 5. Add a **Departures** tile in Layout. Search for a stop name, leave the search field, choose a matching stop, and optionally select a transport mode, first line and second line. Both line fields empty means all lines. Destination empty means all directions.
-6. Save and send the layout. A tile spanning two columns shows a departure list; a single column emphasizes the next departure.
+6. Save and send the layout. Wide tiles show a departure list, including the Guition 1×3 grid; narrow tiles emphasize the next departure.
 
 Stop groups can be found with [Trafiklab Stop Lookup](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/stop-lookup/).
 The built-in name search stores the group ID automatically. After changing the search text, explicitly choose a new result; the previous selection is retained until then. Search results are limited to 48, so use a specific name. Line numbers and destinations are exact matches, case sensitive.
@@ -31,8 +31,8 @@ Both examples show both directions. Blåsut's stop group also includes buses, so
 - `+2` means two minutes late. `TT` means timetable only, without a realtime prediction.
 - Walking time hides departures you cannot reach. The countdown still shows time until departure, not time to leave home.
 - Canceled departures are omitted. Empty results say “No departures”; this covers the API's next 60 minutes only.
-- “Old data” means the last successful response is being shown after a fetch failure. The footer alternates this warning and the data attribution.
-- The footer credits Trafiklab.se. The editor's simplified preview does not reproduce every screen annotation.
+- “Old data” means the last successful response is being shown after a fetch failure. The source credit alternates this warning and the data attribution.
+- The compact source credit shows Trafiklab.se in the smallest theme text size. On wide tiles it shares the last departure row. The editor's simplified preview does not reproduce every screen annotation.
 
 ## Requests and limits
 
@@ -56,6 +56,8 @@ The plugin does not read Home Assistant entities or call Home Assistant actions.
 ## Data and license
 
 Data from [Trafiklab.se](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/timetables/), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The plugin filters and reformats the data into countdowns.
+Trafiklab requires source attribution on screens and website widgets displaying this data; see the [Timetables attribution requirement](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/timetables/#license). This is why the tile retains a visible “Trafiklab.se” credit. A separate full-height footer row is our layout choice, not a requirement: wide tiles share the last departure row with a compact credit. Keep attribution when adapting the display. This README links the data source and license and explains the transformation above.
+
 Plugin code is MIT licensed. The tile adapts Max Gramser's MIT-licensed `ov_departures`; its copyright and license are preserved in NOTICE.
 
 ## Development
@@ -73,3 +75,17 @@ TESSERA_TREE=../homeassistant_espscreen python3 -m unittest discover -s tests -v
 Tests need PyYAML and aiohttp (the preview virtual environment includes them).
 No API key is needed for the deterministic tests and previews. Never commit credentials or raw authenticated request URLs.
 Physical hardware acceptance is separate from simulator checks; see VALIDATION.md.
+
+## GitHub Actions
+
+The `Plugin CI` workflow runs on pushes, pull requests and manually from the Actions tab:
+
+- Checks the manifest against the supported Tessera API 0.10 and runs the twelve deterministic mapper tests.
+- Compiles the plugin C++ into the Guition host simulator and runs strict layout checks, including the 1×3 grid.
+- Uploads preview images, logs and the report as the `guition-preview` artifact for seven days, including on a failed preview when files are available.
+
+No Trafiklab API key or Home Assistant credentials are needed; tests use fixtures and make no Trafiklab calls.
+The workflow has read-only repository permissions and does not publish releases or install firmware.
+Tessera and its plugin tools are pinned to the commits recorded in the workflow; update them deliberately when changing the supported API.
+A simulator build runs on Linux and is not an ESP32 firmware cross-build. Continue building the real Guition firmware in Tessera and testing it on the device.
+The first hosted workflow run after pushing must still be checked in GitHub Actions; local checks do not validate the hosted runner environment.

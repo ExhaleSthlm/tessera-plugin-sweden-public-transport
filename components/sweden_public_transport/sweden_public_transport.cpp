@@ -26,15 +26,17 @@ class NextTile : public tessera::Tile {
 
   void create(const tessera::TileContext &c) override {
     width_ = c.width;
-    height_ = c.height - ui::line_height(Font::BODY) - ui::px(3);
+    // Wide cards use a list even in a one-column screen grid.
+    list_ = c.columns >= 2 || c.width >= ui::px(280);
+    height_ = list_ ? c.height : c.height - ui::line_height(Font::BODY) - ui::px(3);
+    credit_width_ = ui::text_width(plugin_->text("attribution"), Font::BODY);
     attribution_ = ui::label(c.parent, Font::BODY, theme::MUTED);
-    lv_obj_set_size(attribution_, c.width, ui::line_height(Font::BODY));
-    lv_obj_set_pos(attribution_, 0, c.height - ui::line_height(Font::BODY));
+    lv_obj_set_size(attribution_, credit_width_, ui::line_height(Font::BODY));
+    lv_obj_set_pos(attribution_, c.width - credit_width_, c.height - ui::line_height(Font::BODY));
     ui::set_text(attribution_, plugin_->text("attribution"));
     walk_ = c.options["walk"] | 0;
     has_stop_ = !std::string(c.options["stop"] | "").empty();
     late_ = c.options["late"] | true;
-    list_ = c.columns >= 2;
     head_ = std::max(ui::line_height(Font::TITLE), ui::line_height(Font::BODY)) + ui::px(4);
     gap_ = ui::px(ui::large() ? 8 : 5);
     if (list_) {
@@ -128,13 +130,18 @@ class NextTile : public tessera::Tile {
     lv_obj_set_pos(r.badge, 0, r.y);
     lv_obj_center(r.number);
     const int x = shown ? badge_w + ui::px(6) : 0;
-    int right = width_;
+    // Share the last departure row instead of reserving a whole footer row.
+    const bool credit_row = list_ && &r == &rows_.back();
+    const int row_right = width_ - (credit_row ? credit_width_ + ui::px(6) : 0);
+    if (credit_row)
+      lv_obj_set_pos(attribution_, width_ - credit_width_, r.y + (head_ - ui::line_height(Font::BODY)) / 2);
+    int right = row_right;
     if (r.when) {
       const int when_w = when.empty() ? 0 : ui::text_width(when, Font::TITLE) + ui::px(2);
       ui::set_text(r.when, when);
       lv_obj_set_size(r.when, std::max(1, when_w), ui::line_height(Font::TITLE));
-      lv_obj_set_pos(r.when, width_ - when_w, r.y + (head_ - ui::line_height(Font::TITLE)) / 2);
-      right = width_ - when_w - (when_w ? ui::px(6) : 0);
+      lv_obj_set_pos(r.when, row_right - when_w, r.y + (head_ - ui::line_height(Font::TITLE)) / 2);
+      right = row_right - when_w - (when_w ? ui::px(6) : 0);
     }
     ui::set_text(r.to, to);
     lv_obj_set_size(r.to, std::max(1, right - x), ui::line_height(Font::BODY));
@@ -239,7 +246,7 @@ class NextTile : public tessera::Tile {
   }
 
   const tessera::Plugin *plugin_;
-  int width_ = 0, height_ = 0, head_ = 0, gap_ = 0, walk_ = 0;
+  int credit_width_ = 0, width_ = 0, height_ = 0, head_ = 0, gap_ = 0, walk_ = 0;
   bool list_ = false, has_stop_ = false, stale_ = false, late_ = true;
   tessera::Text wait_;
   tessera::List<Row> rows_;

@@ -1,3 +1,13 @@
+# Validation of 0.1.1
+
+Checked on 2026-10-17.
+
+- Manifest check against API 0.10 and all twelve mapper tests: passed.
+- Strict rendering on CYD, Guition, Waveshare portrait and Guition 10.1-inch: passed, zero warnings.
+- Additional Guition 1x3 grid rendering: passed, zero warnings.
+- Visually checked compact source credit and three departure rows on Guition, plus small and large screen previews and the regenerated store image.
+- Firmware has not been installed on the physical screen by this change.
+
 # Validation of 0.1.0
 
 Checked on 2026-10-17.
