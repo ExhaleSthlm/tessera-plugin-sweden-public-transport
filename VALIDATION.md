@@ -1,3 +1,11 @@
+# Validation of 0.1.2
+
+- Manifest validation against API 0.10: passed.
+- Fourteen deterministic mapper tests: passed, including line-choice deduplication, sorting, independent selection and empty responses.
+- Strict simulator compilation/rendering on all four default screens: passed, zero layout warnings.
+- Editor source reviewed: dependent choices reload with the stop, but do not expose a clear/empty entry in Tessera 0.4.88. This limitation is documented.
+- Live editor interaction and physical screen installation have not been tested for this version.
+
 # Validation of 0.1.1
 
 Checked on 2026-10-17.

@@ -1,4 +1,4 @@
-# Kollektivtrafik Sverige för Tessera
+# Public transport (SE) för Tessera
 
 Avgångar från Trafiklab Timetables på din ESP32-skärm. Installera pluginen en gång och lägg till flera rutor med egna hållplatser och filter.
 Kräver plugin-API 0.10: Tessera 0.4.88 och skärmfirmware 0.56.0 eller senare kompatibel version.
@@ -19,6 +19,8 @@ Kräver plugin-API 0.10: Tessera 0.4.88 och skärmfirmware 0.56.0 eller senare k
 | Första linjen | Tomt | `163` |
 | Andra linjen | Tomt | `816` |
 | Destinationsfilter | Tomt | Tomt |
+
+Efter hållplatsvalet fylls båda linjefälten som dropdown-listor. Varje linje visas en gång, oavsett riktning. Listan bygger på kommande 60 minuters avgångar och kan därför sakna linjer som inte går då. Alla trafikslag på hållplatsen ingår i linjevalen; trafikslagsfiltret styr vilka avgångar som visas på skärmen. Tomma linjeval betyder alla linjer. Vid byte av hållplats behöver du välja linjer igen, eftersom Tessera behåller tidigare val. Tessera 0.4.88 saknar ett tomt/rensa-alternativ i dynamiska dropdown-listor. För att återgå till alla linjer efter ett linjeval behöver du skapa en ny ruta och lämna linjevalen orörda. För att ta bort enbart det andra filtret kan du välja samma linje i båda fälten. Befintliga sparade linjenummer fungerar fortfarande. Linjevalen använder samma avgångs-URL och 60-sekunderscache som rutan.
 
 Tomt destinationsfilter visar båda riktningarna. Destinationen visas på varje rad.
 Blåsuts hållplatsområde innehåller även bussar, så välj uttryckligen Tunnelbana där.
@@ -48,7 +50,7 @@ Kravet innebär inte att en hel rad måste reserveras för texten. Vi använder 
 
 Arbetsflödet **Plugin CI** körs vid push och pull request och kan startas manuellt under **Actions**:
 
-- Validerar manifestet mot Tessera API 0.10 och kör de tolv testerna med exempeldata.
+- Validerar manifestet mot Tessera API 0.10 och kör testerna med exempeldata.
 - Kompilerar C++-koden för Guition-simulatorn och kontrollerar layouten, inklusive rastret 1×3.
 - Sparar bilder, loggar och rapport i **guition-preview**, som kan laddas ned från körningen i sju dagar.
 

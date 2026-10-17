@@ -75,6 +75,19 @@ class MappingTests(unittest.TestCase):
         self.assertEqual({c['value'] for c in choices}, {'740021703','740065542'})
         self.assertTrue(any('Blåsut' in c['label'] for c in choices))
 
+    def test_line_choices_deduplicate_directions_and_ignore_selected_filters(self):
+        spec = next(f['map'] for f in MANIFEST['fetch'] if f['id'] == 'lines')
+        choices = plugin_fetch.apply_choices(spec, {'departures': [
+            departure('816', 'Tyresö centrum'), departure('163', 'Bredäng'),
+            departure('163', 'Kärrtorp'), departure('816', 'Gullmarsplan'),
+            departure('18', 'Alvik', mode='METRO')]}, {'line': '163', 'mode': 'BUS'})
+        self.assertEqual(choices, [{'value': n, 'label': n} for n in ('18', '163', '816')])
+
+    def test_line_choices_handle_no_departures_and_missing_designations(self):
+        spec = next(f['map'] for f in MANIFEST['fetch'] if f['id'] == 'lines')
+        for data in ({}, {'departures': []}, {'departures': [{'route': {}}, {}]}):
+            self.assertEqual(plugin_fetch.apply_choices(spec, data), [])
+
     def test_two_stop_budget_leaves_margin_in_31_day_month(self):
         interval = next(f['every'] for f in MANIFEST['fetch'] if f['id'] == 'departures')
         self.assertLess(2 * 31 * 24 * 3600 / interval, 90000)
