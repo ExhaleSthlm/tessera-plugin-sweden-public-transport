@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+- Requires Tessera 0.4.89 and firmware 0.57.0 (plugin API 0.12).
+- Search for and select a stop in one control; the selected name stays visible.
+- Upgrade: reselect the stop and lines in existing tiles, then rebuild and install firmware. Old scalar stop/line settings cannot be converted automatically by the plugin.
+
 ## 0.1.3
 - Keep departure times aligned with a separate source credit below compact rows.
 - Upgrade GitHub Actions to Node.js 24 versions.

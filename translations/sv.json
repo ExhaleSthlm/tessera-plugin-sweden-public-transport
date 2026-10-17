@@ -21,7 +21,7 @@
     "tile_name": "Avgångar",
     "tile_example": "Nästa avgång",
     "stop": "Hållplats",
-    "stop_hint": "Välj en träff från namnsökningen. ID sparas automatiskt.",
+    "stop_hint": "Sök med minst två tecken och välj hållplats. Ta bort valet med × för att byta.",
     "line": "Första linjen",
     "line_hint": "Linjer kommande timmen. Ovalt visar alla; återställning kräver ny ruta i Tessera 0.4.88.",
     "line2": "Andra linjen",

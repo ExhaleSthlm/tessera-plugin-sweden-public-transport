@@ -92,6 +92,22 @@ class MappingTests(unittest.TestCase):
         interval = next(f['every'] for f in MANIFEST['fetch'] if f['id'] == 'departures')
         self.assertLess(2 * 31 * 24 * 3600 / interval, 90000)
 
+    def test_searchable_stop_keeps_label_but_fetch_uses_id(self):
+        option = next(o for o in MANIFEST['tiles'][0]['options'] if o['id'] == 'stop')
+        pick = plugin_manifest.option_value(option, {'value': '740021703', 'label': 'Blåsut'})
+        self.assertEqual(pick['label'], 'Blåsut')
+        fetch = next(f for f in MANIFEST['fetch'] if f['id'] == 'departures')
+        url, headers = plugin_fetch.fill(fetch, plugin_fetch.words_of({'stop': pick}), {'api_key': 'test-key'})
+        self.assertIn('/departures/740021703?', url)
+        self.assertNotIn('Blåsut', url)
+        self.assertEqual(headers, {})
+
+    def test_old_scalar_stop_requires_reselection(self):
+        option = next(o for o in MANIFEST['tiles'][0]['options'] if o['id'] == 'stop')
+        with self.assertRaises(plugin_manifest.ManifestError):
+            plugin_manifest.option_value(option, '740021703')
+        self.assertEqual(plugin_manifest.option_value(option, ''), '')
+
     def test_translation_keys_match(self):
         en=json.loads((ROOT/'translations/en.json').read_text())
         sv=json.loads((ROOT/'translations/sv.json').read_text())

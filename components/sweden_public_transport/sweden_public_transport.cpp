@@ -35,7 +35,7 @@ class NextTile : public tessera::Tile {
     lv_obj_set_pos(attribution_, c.width - credit_width_, c.height - ui::line_height(Font::BODY));
     ui::set_text(attribution_, plugin_->text("attribution"));
     walk_ = c.options["walk"] | 0;
-    has_stop_ = !std::string(c.options["stop"] | "").empty();
+    has_stop_ = !std::string(c.options["stop"]["value"] | "").empty();
     late_ = c.options["late"] | true;
     head_ = std::max(ui::line_height(Font::TITLE), ui::line_height(Font::BODY)) + ui::px(4);
     gap_ = ui::px(ui::large() ? 8 : 5);

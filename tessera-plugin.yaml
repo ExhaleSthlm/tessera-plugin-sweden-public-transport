@@ -1,6 +1,6 @@
 id: sweden_public_transport
-version: 0.1.3
-api: '0.10'
+version: 0.2.0
+api: '0.12'
 icon: bus
 maintainer: ExhaleSthlm
 license: MIT
@@ -39,15 +39,12 @@ tiles:
     title: '{to}'
     countdown: at
   options:
-  - id: search
-    kind: text
-    label: search
-    hint: search_hint
   - id: stop
     kind: choice
     label: stop
     hint: stop_hint
     options_from: stops
+    search: true
   - id: line
     kind: choice
     label: line
