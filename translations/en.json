@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "name": "English"
+  },
+  "screen": {
+    "now": "now",
+    "minutes": "{n} min",
+    "then": "then {list}",
+    "none": "No departures",
+    "waiting": "Loading",
+    "choose_stop": "Set stop",
+    "failed": "Unavailable",
+    "old": "Old data",
+    "late": "+{n}",
+    "attribution": "Trafiklab.se",
+    "scheduled": "TT"
+  },
+  "app": {
+    "name": "Sweden public transport",
+    "summary": "Swedish departures with destinations, realtime updates and walking time, powered by Trafiklab.",
+    "tile_name": "Departures",
+    "tile_example": "Next departure",
+    "stop": "Stop",
+    "stop_hint": "Choose a result from the name search. The ID is kept automatically.",
+    "line": "First line",
+    "line_hint": "Exact line number. Leave both line fields empty for all lines.",
+    "walk": "Walk to the stop",
+    "walk_hint": "Skip departures leaving before you can walk there. The countdown still shows departure time.",
+    "late": "Show delays",
+    "late_hint": "A departure that runs a minute or more late gets \"+2\" behind where it goes.",
+    "line2": "Second line",
+    "line2_hint": "Optional additional line, for example 816 alongside 163.",
+    "api_key": "Trafiklab API key",
+    "api_key_hint": "A key for Trafiklab Realtime APIs. Kept in Tessera, never on the screen.",
+    "mode": "Transport mode",
+    "metro": "Metro",
+    "bus": "Bus",
+    "train": "Train",
+    "tram": "Tram",
+    "ferry": "Ferry",
+    "direction": "Destination filter",
+    "direction_hint": "Exact destination text; leave empty for both directions.",
+    "search": "Find a stop",
+    "search_hint": "Enter a name and leave the field, then choose a result below. After changing the search, select the stop again."
+  }
+}

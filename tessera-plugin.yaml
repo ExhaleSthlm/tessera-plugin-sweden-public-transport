@@ -1,0 +1,135 @@
+id: sweden_public_transport
+version: 0.1.0
+api: '0.10'
+icon: bus
+maintainer: ExhaleSthlm
+license: MIT
+stage: beta
+topics:
+- travel
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 16
+permissions:
+  network:
+  - realtime-api.trafiklab.se
+attributes:
+- cloud
+- ai-developed
+privacy: https://github.com/ExhaleSthlm/tessera-plugin-sweden-public-transport#privacy
+inputs:
+- id: api_key
+  kind: secret
+  scope: all
+  label: api_key
+  hint: api_key_hint
+tiles:
+- id: next
+  name: tile_name
+  icon: bus
+  sizes:
+    min: 1x1
+    max: 3x2
+  memory: 3200
+  data: departures
+  example: tile_example
+  preview:
+    badge: '{line}'
+    title: '{to}'
+    countdown: at
+  options:
+  - id: search
+    kind: text
+    label: search
+    hint: search_hint
+  - id: stop
+    kind: choice
+    label: stop
+    hint: stop_hint
+    options_from: stops
+  - id: line
+    kind: text
+    label: line
+    hint: line_hint
+  - id: line2
+    kind: text
+    label: line2
+    hint: line2_hint
+  - id: mode
+    kind: choice
+    label: mode
+    default: ''
+    choices:
+    - value: METRO
+      label: metro
+    - value: BUS
+      label: bus
+    - value: TRAIN
+      label: train
+    - value: TRAM
+      label: tram
+    - value: BOAT
+      label: ferry
+  - id: direction
+    kind: text
+    label: direction
+    hint: direction_hint
+  - id: walk
+    kind: number
+    min: 0
+    max: 30
+    step: 1
+    unit: min
+    default: 0
+    label: walk
+    hint: walk_hint
+  - id: late
+    kind: toggle
+    default: true
+    label: late
+    hint: late_hint
+fetch:
+- id: departures
+  url: https://realtime-api.trafiklab.se/v1/departures/{stop}?key={api_key}
+  every: 60s
+  map:
+    items: $.departures[*]
+    fields:
+      line: route.designation
+      to: route.direction
+      at:
+        path: realtime
+        as: epoch
+        tz: Europe/Stockholm
+      plan:
+        path: scheduled
+        as: epoch
+        tz: Europe/Stockholm
+      rt:
+        path: is_realtime
+        as: number
+      cancel:
+        path: canceled
+        as: number
+      mode: route.transport_mode
+    where:
+      line:
+      - '{line}'
+      - '{line2}'
+      to: '{direction}'
+      mode: '{mode}'
+    skip:
+      cancel:
+      - 1
+    sort: at
+    limit: 12
+- id: stops
+  url: https://realtime-api.trafiklab.se/v1/stops/name/{search}?key={api_key}
+  every: 1d
+  map:
+    items: $.stop_groups[*]
+    value: id
+    label:
+    - name
+    - id

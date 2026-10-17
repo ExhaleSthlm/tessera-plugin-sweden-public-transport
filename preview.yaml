@@ -1,0 +1,91 @@
+time_zone: Europe/Stockholm
+tiles:
+- tile: next
+  name: Tunnelbana
+  options:
+    stop: '740021703'
+    mode: METRO
+- tile: next
+  name: Bussar
+  options:
+    stop: '740065542'
+    mode: BUS
+    line: '163'
+    line2: '816'
+  sizes:
+  - 2x1
+  - 2x2
+- tile: next
+  name: Tomt
+  options:
+    stop: '740065542'
+  answers:
+    departures:
+      departures: []
+  sizes:
+  - 1x1
+- tile: next
+  name: Fel
+  options:
+    stop: '740065542'
+  data:
+    wait: failed
+  sizes:
+  - 1x1
+answers:
+  departures:
+    departures:
+    - route:
+        designation: '18'
+        direction: Alvik
+        transport_mode: METRO
+      realtime: '{now+3m}'
+      scheduled: '{now+2m}'
+      is_realtime: true
+      canceled: false
+    - route:
+        designation: '18'
+        direction: Farsta strand
+        transport_mode: METRO
+      realtime: '{now+6m}'
+      scheduled: '{now+5m}'
+      is_realtime: true
+      canceled: false
+    - route:
+        designation: '163'
+        direction: Bredäng
+        transport_mode: BUS
+      realtime: '{now+4m}'
+      scheduled: '{now+3m}'
+      is_realtime: true
+      canceled: false
+    - route:
+        designation: '816'
+        direction: Tyresö centrum
+        transport_mode: BUS
+      realtime: '{now+8m}'
+      scheduled: '{now+7m}'
+      is_realtime: true
+      canceled: false
+    - route:
+        designation: '163'
+        direction: Kärrtorp
+        transport_mode: BUS
+      realtime: '{now+11m}'
+      scheduled: '{now+11m}'
+      is_realtime: false
+      canceled: false
+    - route:
+        designation: '816'
+        direction: Gullmarsplan
+        transport_mode: BUS
+      realtime: '{now+14m}'
+      scheduled: '{now+13m}'
+      is_realtime: true
+      canceled: false
+  stops:
+    stop_groups:
+    - id: '740021703'
+      name: Blåsut T-bana
+    - id: '740065542'
+      name: Dalens sjukhus

@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "name": "Svenska"
+  },
+  "screen": {
+    "now": "nu",
+    "minutes": "{n} min",
+    "then": "sedan {list}",
+    "none": "Inga avgångar",
+    "waiting": "Hämtar",
+    "choose_stop": "Välj hållplats",
+    "failed": "Saknar tider",
+    "old": "Gamla tider",
+    "late": "+{n}",
+    "attribution": "Trafiklab.se",
+    "scheduled": "TT"
+  },
+  "app": {
+    "name": "Kollektivtrafik Sverige",
+    "summary": "Svenska avgångar med destination, realtid och gångtid, med data från Trafiklab.",
+    "tile_name": "Avgångar",
+    "tile_example": "Nästa avgång",
+    "stop": "Hållplats",
+    "stop_hint": "Välj en träff från namnsökningen. ID sparas automatiskt.",
+    "line": "Första linjen",
+    "line_hint": "Exakt linjenummer. Lämna båda linjefälten tomma för alla linjer.",
+    "line2": "Andra linjen",
+    "line2_hint": "Valfri ytterligare linje, exempelvis 816 tillsammans med 163.",
+    "mode": "Trafikslag",
+    "metro": "Tunnelbana",
+    "bus": "Buss",
+    "train": "Tåg",
+    "tram": "Spårvagn",
+    "ferry": "Färja",
+    "direction": "Destinationsfilter",
+    "direction_hint": "Exakt destinationstext. Lämna tomt för båda riktningarna.",
+    "walk": "Gångtid till hållplatsen",
+    "walk_hint": "Avgångar som du inte hinner till hoppas över. Nedräkningen visar fortfarande avgångstiden.",
+    "late": "Visa försening",
+    "late_hint": "Försenade avgångar markeras med exempelvis +2 minuter.",
+    "api_key": "Trafiklab API-nyckel",
+    "api_key_hint": "Nyckel för Trafiklab Realtime APIs. Sparas i Tessera, aldrig på skärmen.",
+    "search": "Sök hållplats",
+    "search_hint": "Skriv ett namn och lämna fältet. Välj sedan en träff nedan. Välj hållplats igen om du ändrar sökningen."
+  }
+}
