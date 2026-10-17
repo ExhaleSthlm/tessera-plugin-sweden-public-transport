@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+- Keep departure times aligned with a separate source credit below compact rows.
+- Upgrade GitHub Actions to Node.js 24 versions.
+- Rebuild and install the screen firmware for the layout update.
+
 ## 0.1.2
 - Rename the plugin to Public transport (SE) in the plugin picker.
 - Tessera 0.4.88 cannot clear a dynamic choice: create a new tile to return to all lines after selecting a filter.

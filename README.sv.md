@@ -31,7 +31,7 @@ Blåsuts hållplatsområde innehåller även bussar, så välj uttryckligen Tunn
 - `TT` betyder tidtabellstid utan realtidsprognos.
 - Gångtiden filtrerar bort avgångar du inte hinner till; nedräkningen visar tiden till avgång, inte tiden tills du behöver gå.
 - Inställda avgångar visas inte. API:et visar kommande 60 minuter.
-- Källhänvisningen Trafiklab.se använder temats minsta textstorlek och delar sista avgångsraden i breda rutor.
+- Källhänvisningen Trafiklab.se använder temats minsta textstorlek och ligger separat under avgångarna, så att alla tider ligger på samma lodräta linje.
 - Vid hämtningsfel visas tidigare data med varningen ”Gamla tider”, växelvis med källhänvisningen Trafiklab.se.
 
 Varje hållplats hämtas var 60:e sekund och delar svar mellan rutorna. Två hållplatser dygnet runt motsvarar cirka 89 280 avgångsanrop på 31 dagar, plus sökningar, omstarter och eventuella återförsök. Namnsökningar cachas ett dygn per söktext. Realtime Brons har enligt Trafiklab 100 000 anrop/månad; standarden ryms inom den kvoten för två hållplatser. Fler hållplatser eller andra appar med samma nyckel behöver räknas med.
@@ -44,7 +44,7 @@ Första versionen är en beta. Se engelska README för tekniska begränsningar o
 
 Trafiklab kräver källhänvisning på skärmar och webbwidgets som visar deras data. Därför behåller pluginen texten **Trafiklab.se** på skärmen. Se [Trafiklabs villkor för Timetables](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/timetables/#license). Data omfattas av [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); pluginen filtrerar och omformaterar uppgifterna till avgångar med nedräkning.
 
-Kravet innebär inte att en hel rad måste reserveras för texten. Vi använder temats minsta textstorlek och delar sista avgångsraden i breda rutor. Behåll källhänvisningen om du anpassar layouten. Pluginens egen kod har MIT-licens; datans licens är separat.
+Kravet innebär inte att en hel rad måste reserveras för texten. Vi använder temats minsta textstorlek och ligger separat under avgångarna, så att alla tider ligger på samma lodräta linje. Behåll källhänvisningen om du anpassar layouten. Pluginens egen kod har MIT-licens; datans licens är separat.
 
 ## Automatiska kontroller med GitHub Actions
 

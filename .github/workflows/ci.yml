@@ -22,23 +22,23 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: plugin
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: MaxGramser/homeassistant_espscreen
           ref: 6943c3138e4523aff13bd1f0f1d8f0b8dab45dd0
           path: core
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: MaxGramser/tessera-plugins
           ref: a625674da86a6f2ba7577626407c26224ca9378c
           path: tools
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - name: Install test dependencies
@@ -53,23 +53,23 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: plugin
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: MaxGramser/homeassistant_espscreen
           ref: 6943c3138e4523aff13bd1f0f1d8f0b8dab45dd0
           path: core
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: MaxGramser/tessera-plugins
           ref: a625674da86a6f2ba7577626407c26224ca9378c
           path: tools
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - name: Install simulator dependencies
@@ -81,7 +81,7 @@ jobs:
         run: python tools/tools/preview.py plugin --board guition --grid 1x3 --strict --out preview-results
       - name: Upload preview report and images
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: guition-preview
           path: preview-results/

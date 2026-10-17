@@ -32,7 +32,7 @@ Both examples show both directions. Blåsut's stop group also includes buses, so
 - Walking time hides departures you cannot reach. The countdown still shows time until departure, not time to leave home.
 - Canceled departures are omitted. Empty results say “No departures”; this covers the API's next 60 minutes only.
 - “Old data” means the last successful response is being shown after a fetch failure. The source credit alternates this warning and the data attribution.
-- The compact source credit shows Trafiklab.se in the smallest theme text size. On wide tiles it shares the last departure row. The editor's simplified preview does not reproduce every screen annotation.
+- The compact source credit shows Trafiklab.se in the smallest theme text size. It sits below the departures, keeping all departure times aligned. Row spacing tightens where needed to fit three departures plus the credit on Guition 1×3. The editor's simplified preview does not reproduce every screen annotation.
 
 ## Requests and limits
 
@@ -56,7 +56,7 @@ The plugin does not read Home Assistant entities or call Home Assistant actions.
 ## Data and license
 
 Data from [Trafiklab.se](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/timetables/), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The plugin filters and reformats the data into countdowns.
-Trafiklab requires source attribution on screens and website widgets displaying this data; see the [Timetables attribution requirement](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/timetables/#license). This is why the tile retains a visible “Trafiklab.se” credit. A separate full-height footer row is our layout choice, not a requirement: wide tiles share the last departure row with a compact credit. Keep attribution when adapting the display. This README links the data source and license and explains the transformation above.
+Trafiklab requires source attribution on screens and website widgets displaying this data; see the [Timetables attribution requirement](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/timetables/#license). This is why the tile retains a visible “Trafiklab.se” credit. The exact placement is our layout choice, not a requirement: the compact credit sits below the departure rows. Keep attribution when adapting the display. This README links the data source and license and explains the transformation above.
 
 Plugin code is MIT licensed. The tile adapts Max Gramser's MIT-licensed `ov_departures`; its copyright and license are preserved in NOTICE.
 

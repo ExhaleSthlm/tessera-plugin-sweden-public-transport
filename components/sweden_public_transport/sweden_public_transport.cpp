@@ -28,7 +28,7 @@ class NextTile : public tessera::Tile {
     width_ = c.width;
     // Wide cards use a list even in a one-column screen grid.
     list_ = c.columns >= 2 || c.width >= ui::px(280);
-    height_ = list_ ? c.height : c.height - ui::line_height(Font::BODY) - ui::px(3);
+    height_ = c.height - ui::line_height(Font::BODY) - ui::px(list_ ? 1 : 3);
     credit_width_ = ui::text_width(plugin_->text("attribution"), Font::BODY);
     attribution_ = ui::label(c.parent, Font::BODY, theme::MUTED);
     lv_obj_set_size(attribution_, credit_width_, ui::line_height(Font::BODY));
@@ -40,6 +40,15 @@ class NextTile : public tessera::Tile {
     head_ = std::max(ui::line_height(Font::TITLE), ui::line_height(Font::BODY)) + ui::px(4);
     gap_ = ui::px(ui::large() ? 8 : 5);
     if (list_) {
+      // Tighten vertical spacing only when it preserves another departure above the separate source credit.
+      const int compact_head = std::max(ui::line_height(Font::TITLE), ui::line_height(Font::BODY));
+      const int compact_gap = ui::px(2);
+      const int regular_rows = (height_ + gap_) / (head_ + gap_);
+      const int compact_rows = (height_ + compact_gap) / (compact_head + compact_gap);
+      if (regular_rows < 3 && compact_rows > regular_rows) {
+        head_ = compact_head;
+        gap_ = compact_gap;
+      }
       const int row = head_ + gap_;
       rows_.resize(std::max(1, std::min(6, (height_ + gap_) / row)));
       for (size_t i = 0; i < rows_.size(); ++i) make_row(rows_[i], c.parent, static_cast<int>(i) * row);
@@ -130,18 +139,13 @@ class NextTile : public tessera::Tile {
     lv_obj_set_pos(r.badge, 0, r.y);
     lv_obj_center(r.number);
     const int x = shown ? badge_w + ui::px(6) : 0;
-    // Share the last departure row instead of reserving a whole footer row.
-    const bool credit_row = list_ && &r == &rows_.back();
-    const int row_right = width_ - (credit_row ? credit_width_ + ui::px(6) : 0);
-    if (credit_row)
-      lv_obj_set_pos(attribution_, width_ - credit_width_, r.y + (head_ - ui::line_height(Font::BODY)) / 2);
-    int right = row_right;
+    int right = width_;
     if (r.when) {
       const int when_w = when.empty() ? 0 : ui::text_width(when, Font::TITLE) + ui::px(2);
       ui::set_text(r.when, when);
       lv_obj_set_size(r.when, std::max(1, when_w), ui::line_height(Font::TITLE));
-      lv_obj_set_pos(r.when, row_right - when_w, r.y + (head_ - ui::line_height(Font::TITLE)) / 2);
-      right = row_right - when_w - (when_w ? ui::px(6) : 0);
+      lv_obj_set_pos(r.when, width_ - when_w, r.y + (head_ - ui::line_height(Font::TITLE)) / 2);
+      right = width_ - when_w - (when_w ? ui::px(6) : 0);
     }
     ui::set_text(r.to, to);
     lv_obj_set_size(r.to, std::max(1, right - x), ui::line_height(Font::BODY));

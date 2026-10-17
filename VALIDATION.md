@@ -1,3 +1,11 @@
+# Validation of 0.1.3
+
+- Fourteen mapper tests and API 0.10 manifest validation passed.
+- Final layout rendered on all four default boards, including additional 1x3 grids: zero warnings. The preview run started before the version-only bump from 0.1.2 to 0.1.3.
+- Guition 1x3 bus preview confirms three departure rows, aligned times and separate attribution below them.
+- GitHub Actions now use checkout v5, setup-python v6 and upload-artifact v6; all declare Node.js 24. YAML and shell syntax checked locally; hosted CI must run after push.
+- No physical firmware installation performed.
+
 # Validation of 0.1.2
 
 - Manifest validation against API 0.10: passed.
