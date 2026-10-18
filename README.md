@@ -1,8 +1,8 @@
 # Public transport (SE) for Tessera
 
 Swedish public transport departures on Tessera ESP32 screens, using Trafiklab Timetables.
-Install once and add multiple tiles, each with its own stop, up to two lines, transport mode and optional destination.
-Swedish and English translations are included. This beta requires Tessera plugin API 0.10 (Tessera 0.4.88 / firmware 0.56.0 or later compatible versions).
+Install once and add multiple tiles, each with its own stop, one to eight selected lines, transport mode and optional destination.
+Swedish and English translations are included. This beta requires Tessera plugin API 0.12 (Tessera 0.4.89 / firmware 0.57.0 or later compatible versions).
 
 ## Set up
 
@@ -10,20 +10,25 @@ Swedish and English translations are included. This beta requires Tessera plugin
 2. In Tessera, open Plugins, choose **Add with a link**, and enter https://github.com/ExhaleSthlm/tessera-plugin-sweden-public-transport.
 3. Add the plugin to the intended screen and build its firmware. This updates the screen; allow time for the build.
 4. Enter the API key in the plugin's secret **Trafiklab API key** input. Never put it in YAML or Git.
-5. Add a **Departures** tile in Layout. Search for a stop name, leave the search field, choose a matching stop, and optionally select a transport mode, first line and second line. Both line fields empty means all lines. Destination empty means all directions.
-6. Save and send the layout. Wide tiles show a departure list, including the Guition 1×3 grid; narrow tiles emphasize the next departure.
+5. Add a **Departures** tile in Layout. Open **Stop**, type at least two characters, and select a result. Its name stays visible after searching.
+6. Under **Lines**, add one to eight lines from that stop. Remove a selection with ×. Select the transport mode and, optionally, an exact destination.
+7. Save and send the layout. Wide tiles show a departure list, including the Guition 1×3 grid; narrow tiles emphasize the next departure.
 
-Stop groups can be found with [Trafiklab Stop Lookup](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/stop-lookup/).
-The built-in name search stores the group ID automatically. After changing the search text, explicitly choose a new result; the previous selection is retained until then. Search results are limited to 48, so use a specific name. Choose line numbers from the dropdowns after selecting a stop. Choices include each line once across both directions, using departures in the next 60 minutes; lines without departures in that window may be absent. The choices show all transport modes at the stop; the separate transport-mode filter still controls the displayed departures. Both line choices empty means all lines. After changing stops, reselect both line choices: Tessera retains existing selections. Tessera 0.4.88 does not offer an empty/reset entry in dynamically populated dropdowns. To return to all lines after choosing a filter, create a new tile and leave its line choices untouched; to remove only the second filter, select the same line in both fields. Existing saved line numbers remain valid. Destination text must be an exact, case-sensitive match.
+The stop picker uses [Trafiklab Stop Lookup](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/stop-lookup/). It searches after a short pause while typing; Tessera caches searched choices for ten minutes. At most 48 results are offered, so use a specific name.
+Line choices include each line once across both directions, using departures in the next 60 minutes; a line without departures in that window may be absent. Choices include all modes at the stop; the separate mode filter controls displayed departures. Destination text must be an exact, case-sensitive match.
 
-Example configuration, verified with Trafiklab on 2026-10-17:
+At least one line is required. Removing all line selections shows **Choose lines** and stops scheduled departure fetching for that tile. An open editor can still request line choices. After changing stops, remove the old line selections and choose lines for the new stop; Tessera does not reset dependent selections automatically.
 
-| Tile | Stop ID | Mode | First line | Second line | Destination |
-| --- | --- | --- | --- | --- | --- |
-| Blåsut metro | `740021703` | Metro | empty | empty | empty |
-| Dalens sjukhus buses | `740065542` | Bus | `163` | `816` | empty |
+| Tile | Stop ID | Mode | Lines | Destination |
+| --- | --- | --- | --- | --- |
+| Blåsut metro | `740021703` | Metro | `18` | empty |
+| Dalens sjukhus buses | `740065542` | Bus | `163`, `816` | empty |
 
 Both examples show both directions. Blåsut's stop group also includes buses, so select Metro explicitly.
+
+## Upgrading from 0.1.x or 0.2.0
+
+Update Tessera to 0.4.89 or later first. When upgrading from 0.1.x, select the stop again in the new searchable picker. When upgrading from either 0.1.x or 0.2.0, select the lines again in the new **Lines** control; the previous two scalar line fields cannot be converted automatically by the plugin. Save/send the layout and rebuild/install the screen firmware. Existing walking time, mode, destination and delay settings keep their option IDs.
 
 ## Reading the tile
 
@@ -37,10 +42,10 @@ Both examples show both directions. Blåsut's stop group also includes buses, so
 ## Requests and limits
 
 Tessera fetches every 60 seconds for each distinct stop URL and shares its response between tiles of this plugin.
-Two stops continuously active use an estimated 89,280 departure requests in 31 days, before editor lookups and retries. Stop searches are cached for one day per query. Line dropdowns use the same departure URL and 60-second cache as the tile; opening them can fetch data when that cache is cold. Realtime Bronze currently allows 100,000 requests/month, which accommodates these two stops with some margin. More stops or other users of the same key need their own budget. This is an estimate, not an enforced account-wide cap.
+Two stops continuously active use an estimated 89,280 departure requests in 31 days, before editor lookups and retries. Searched stop choices are cached for ten minutes by Tessera. Line choices use the same departure URL and 60-second cache as the tile; opening them can fetch data when that cache is cold. Realtime Bronze currently allows 100,000 requests/month, which accommodates these two stops with some margin. More stops or other users of the same key need their own budget. This is an estimate, not an enforced account-wide cap.
 
-The interval is currently a manifest constant. Tessera 0.4.88 has no plugin setting for runtime fetch intervals, polling schedules, or computed editor fields. See ROADMAP.md for these requested enhancements.
-The plugin sends at most the next 12 filtered departures, bounded further by Tessera's message budget; very frequent services or long walking times can exhaust this window before the next refresh.
+The interval is currently a manifest constant. Tessera 0.4.89 has no plugin setting for runtime fetch intervals, polling schedules, or computed editor fields. See ROADMAP.md for these requested enhancements.
+Each selected line filters the shared response before the results are merged, sorted and limited. The plugin sends at most the next 12 filtered departures, bounded further by Tessera's message budget; very frequent services or long walking times can exhaust this window before the next refresh.
 The response must fit Tessera's 64 KiB fetch limit. Busy hubs may exceed it; filtering happens after download and cannot reduce the HTTP response size.
 The two example stops returned approximately 17 KB and 9 KB during initial verification, not a guarantee for every time of day.
 
@@ -80,7 +85,7 @@ Physical hardware acceptance is separate from simulator checks; see VALIDATION.m
 
 The `Plugin CI` workflow runs on pushes, pull requests and manually from the Actions tab:
 
-- Checks the manifest against the supported Tessera API 0.10 and runs the deterministic mapper tests.
+- Checks the manifest against the supported Tessera API 0.12 on Tessera 0.4.89 and runs the deterministic mapper tests.
 - Compiles the plugin C++ into the Guition host simulator and runs strict layout checks, including the 1×3 grid.
 - Uploads preview images, logs and the report as the `guition-preview` artifact for seven days, including on a failed preview when files are available.
 

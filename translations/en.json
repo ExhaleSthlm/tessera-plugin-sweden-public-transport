@@ -13,7 +13,8 @@
     "old": "Old data",
     "late": "+{n}",
     "attribution": "Trafiklab.se",
-    "scheduled": "TT"
+    "scheduled": "TT",
+    "choose_lines": "Choose lines"
   },
   "app": {
     "name": "Public transport (SE)",
@@ -22,14 +23,10 @@
     "tile_example": "Next departure",
     "stop": "Stop",
     "stop_hint": "Type at least two characters and select a stop. Remove the selection with × to change it.",
-    "line": "First line",
-    "line_hint": "Lines in the next hour. Unset means all; resetting requires a new tile in Tessera 0.4.88.",
     "walk": "Walk to the stop",
     "walk_hint": "Skip departures leaving before you can walk there. The countdown still shows departure time.",
     "late": "Show delays",
     "late_hint": "A departure that runs a minute or more late gets \"+2\" behind where it goes.",
-    "line2": "Second line",
-    "line2_hint": "Optional second line from the same stop. Select lines again after changing stops.",
     "api_key": "Trafiklab API key",
     "api_key_hint": "A key for Trafiklab Realtime APIs. Kept in Tessera, never on the screen.",
     "mode": "Transport mode",
@@ -40,7 +37,7 @@
     "ferry": "Ferry",
     "direction": "Destination filter",
     "direction_hint": "Exact destination text; leave empty for both directions.",
-    "search": "Find a stop",
-    "search_hint": "Enter a name and leave the field, then choose a result below. After changing the search, select the stop again."
+    "selected_lines": "Lines",
+    "selected_lines_hint": "Choose 1–8 lines; remove with ×. Empty selection shows Choose lines. Only lines departing in the next hour are listed. Reselect after changing stops."
   }
 }

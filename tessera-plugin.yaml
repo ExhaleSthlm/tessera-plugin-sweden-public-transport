@@ -1,5 +1,5 @@
 id: sweden_public_transport
-version: 0.2.0
+version: 0.2.1
 api: '0.12'
 icon: bus
 maintainer: ExhaleSthlm
@@ -45,16 +45,12 @@ tiles:
     hint: stop_hint
     options_from: stops
     search: true
-  - id: line
+  - id: selected_lines
     kind: choice
-    label: line
-    hint: line_hint
+    label: selected_lines
+    hint: selected_lines_hint
     options_from: lines
-  - id: line2
-    kind: choice
-    label: line2
-    hint: line2_hint
-    options_from: lines
+    multiple: 8
   - id: mode
     kind: choice
     label: mode
@@ -90,6 +86,7 @@ tiles:
     hint: late_hint
 fetch:
 - id: departures
+  each: selected_lines
   url: https://realtime-api.trafiklab.se/v1/departures/{stop}?key={api_key}
   every: 60s
   map:
@@ -113,9 +110,7 @@ fetch:
         as: number
       mode: route.transport_mode
     where:
-      line:
-      - '{line}'
-      - '{line2}'
+      line: '{selected_lines}'
       to: '{direction}'
       mode: '{mode}'
     skip:

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+- Replace the two line dropdowns with one removable selection of up to eight lines.
+- At least one line is required; removing all selections shows Choose lines and stops departure polling for that tile.
+- Filter each selected line before merging, sorting and limiting departures; responses share the same stop cache.
+- Upgrade: select lines again (18 for Blåsut, 163 and 816 for Dalens sjukhus), save the layout, and rebuild/install firmware. Reselect the stop too when upgrading from 0.1.x.
+
 ## 0.2.0
 - Requires Tessera 0.4.89 and firmware 0.57.0 (plugin API 0.12).
 - Search for and select a stop in one control; the selected name stays visible.

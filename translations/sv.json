@@ -13,7 +13,8 @@
     "old": "Gamla tider",
     "late": "+{n}",
     "attribution": "Trafiklab.se",
-    "scheduled": "TT"
+    "scheduled": "TT",
+    "choose_lines": "Välj linjer"
   },
   "app": {
     "name": "Public transport (SE)",
@@ -22,10 +23,6 @@
     "tile_example": "Nästa avgång",
     "stop": "Hållplats",
     "stop_hint": "Sök med minst två tecken och välj hållplats. Ta bort valet med × för att byta.",
-    "line": "Första linjen",
-    "line_hint": "Linjer kommande timmen. Ovalt visar alla; återställning kräver ny ruta i Tessera 0.4.88.",
-    "line2": "Andra linjen",
-    "line2_hint": "Valfri andra linje från samma hållplats. Välj linjer igen om du byter hållplats.",
     "mode": "Trafikslag",
     "metro": "Tunnelbana",
     "bus": "Buss",
@@ -40,7 +37,7 @@
     "late_hint": "Försenade avgångar markeras med exempelvis +2 minuter.",
     "api_key": "Trafiklab API-nyckel",
     "api_key_hint": "Nyckel för Trafiklab Realtime APIs. Sparas i Tessera, aldrig på skärmen.",
-    "search": "Sök hållplats",
-    "search_hint": "Skriv ett namn och lämna fältet. Välj sedan en träff nedan. Välj hållplats igen om du ändrar sökningen."
+    "selected_lines": "Linjer",
+    "selected_lines_hint": "Välj 1–8 linjer. Ta bort med ×. Tomt val visar Välj linjer. Endast linjer med avgångar kommande timmen listas. Välj om efter hållplatsbyte."
   }
 }

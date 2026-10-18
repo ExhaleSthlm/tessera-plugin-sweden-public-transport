@@ -2,13 +2,13 @@
 
 ## Available in this beta
 
-- Stop name search using Trafiklab Stop Lookup, with a separate result selector. The search runs after editing the text field, not for each typed character. Results are cached for one day per search URL.
-- Up to two exact line filters, optional transport mode and destination; empty destination shows both directions.
+- Integrated stop search using Trafiklab Stop Lookup and Tessera API 0.12. Searches start after a 300 ms typing pause with at least two characters; searched results are cached for ten minutes.
+- One to eight selected lines with removable choices, optional transport mode and destination; empty destination shows both directions. At least one line is required.
 - A fixed 60-second departure interval. For two distinct stops, a 31-day month estimates 89,280 departure calls, plus lookup traffic, retries and cache resets. Trafiklab Realtime Bronze currently documents 100,000 requests/month and 25/minute. Other clients sharing the key consume the same quota.
 
 ## Requires Tessera support or a separate Home Assistant integration
 
-Tessera 0.4.88 parses `fetch.every` as a constant duration. It does not accept a tile-option placeholder there, a daily fetch schedule, or arbitrary computed inspector fields. A plugin cannot execute Python in the Tessera app. Merely hiding a tile at night does not guarantee that requests stop.
+Tessera 0.4.89 parses `fetch.every` as a constant duration. It does not accept a tile-option placeholder there, a daily fetch schedule, or arbitrary computed inspector fields. A plugin cannot execute Python in the Tessera app. Merely hiding a tile at night does not guarantee that requests stop.
 
 For adjustable polling, quiet hours and a global request estimate, prefer a general upstream Tessera enhancement. An alternative is a Home Assistant integration that owns fetching, schedules and counters; the display plugin reads its entities. That is an architectural extension, not an unsupported manifest field.
 
@@ -30,7 +30,7 @@ The owner approved keeping the documented query method on 2026-10-17. The manife
 
 ## Suggested later improvements
 
-- Destination selection and line choices based on current departures, while retaining manual input for lines absent from the next hour.
+- Destination selection based on current departures, and a way to enter lines absent from the next hour.
 - Platform/stop-position display and service alerts in an expanded detail view.
 - Last-successful-update age and a maximum age for showing cached predictions. These need backend timestamps to avoid confusing a repeated cached state with a new fetch.
 - A direction-balanced view, so frequent traffic in one direction cannot crowd out the other. Keep chronological sorting as an alternative.

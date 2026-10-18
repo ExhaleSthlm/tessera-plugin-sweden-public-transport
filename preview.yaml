@@ -4,14 +4,14 @@ tiles:
   name: Tunnelbana
   options:
     stop: {value: '740021703', label: Blåsut}
+    selected_lines: [{value: "18", label: "18"}]
     mode: METRO
 - tile: next
   name: Bussar
   options:
     stop: {value: '740065542', label: Dalens sjukhus}
     mode: BUS
-    line: '163'
-    line2: '816'
+    selected_lines: [{value: "163", label: "163"}, {value: "816", label: "816"}]
   sizes:
   - 1x1
   - 2x1
@@ -20,6 +20,7 @@ tiles:
   name: Tomt
   options:
     stop: {value: '740065542', label: Dalens sjukhus}
+    selected_lines: [{value: "163", label: "163"}]
   answers:
     departures:
       departures: []
@@ -29,10 +30,17 @@ tiles:
   name: Fel
   options:
     stop: {value: '740065542', label: Dalens sjukhus}
+    selected_lines: [{value: "163", label: "163"}]
   data:
     wait: failed
   sizes:
   - 1x1
+- tile: next
+  name: Välj linjer
+  options:
+    stop: {value: '740065542', label: Dalens sjukhus}
+    selected_lines: []
+  sizes: [1x1]
 answers:
   departures:
     departures:

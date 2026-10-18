@@ -36,6 +36,7 @@ class NextTile : public tessera::Tile {
     ui::set_text(attribution_, plugin_->text("attribution"));
     walk_ = c.options["walk"] | 0;
     has_stop_ = !std::string(c.options["stop"]["value"] | "").empty();
+    has_lines_ = c.options["selected_lines"].as<JsonArrayConst>().size() > 0;
     late_ = c.options["late"] | true;
     head_ = std::max(ui::line_height(Font::TITLE), ui::line_height(Font::BODY)) + ui::px(4);
     gap_ = ui::px(ui::large() ? 8 : 5);
@@ -90,7 +91,7 @@ class NextTile : public tessera::Tile {
     for (const auto &d : departures_)
       if (now && d.at >= now + static_cast<uint32_t>(walk_) * 60) next.push_back(&d);
     ui::set_text(attribution_, plugin_->text(stale_ && (now / 5) % 2 ? "old" : "attribution"));
-    const char *why = !has_stop_ ? "choose_stop" : !now ? "waiting" : !wait_.empty() ? (wait_ == "failed" ? "failed" : "waiting")
+    const char *why = !has_stop_ ? "choose_stop" : !has_lines_ ? "choose_lines" : !now ? "waiting" : !wait_.empty() ? (wait_ == "failed" ? "failed" : "waiting")
                                                         : next.empty() ? "none" : nullptr;
     if (list_) paint_list(next, why, now);
     else paint_single(next, why, now);
@@ -251,7 +252,7 @@ class NextTile : public tessera::Tile {
 
   const tessera::Plugin *plugin_;
   int credit_width_ = 0, width_ = 0, height_ = 0, head_ = 0, gap_ = 0, walk_ = 0;
-  bool list_ = false, has_stop_ = false, stale_ = false, late_ = true;
+  bool list_ = false, has_stop_ = false, has_lines_ = false, stale_ = false, late_ = true;
   tessera::Text wait_;
   tessera::List<Row> rows_;
   lv_obj_t *big_{}, *later_{}, *note_{}, *attribution_{};

@@ -1,3 +1,14 @@
+# Validation of 0.2.1
+
+Checked on 2026-10-18 against Tessera 0.4.89 / firmware 0.57.0, commit 9f6ab3c68d420f454fb905466696063b1d789049.
+
+- Manifest validation: passed; requires plugin API 0.12.
+- Nineteen tests using the real Tessera mapper and Plugins.asks: passed. Covers searchable stop values, selected-line expansion, both directions, global sorting/limit, empty selection, duplicates, old scalar values, and shared cache keys for multiple lines and their choice lookup.
+- Strict host compilation/rendering on CYD, Guition, Waveshare portrait and Guition 10.1-inch, including 1x3 grids: passed, zero warnings.
+- Visually checked three Guition bus rows, aligned times, separate attribution and the empty-line prompt, plus small/large previews and regenerated store image.
+- CI is pinned to the released 0.4.89 core. No API keys or live Trafiklab requests were used for validation.
+- Not tested here: interactive selection in the user's running HA editor, a cross-compiled ESP32 firmware image, or installation on physical hardware. Old scalar stop/line settings require reselection as documented.
+
 # Validation of 0.1.3
 
 - Fourteen mapper tests and API 0.10 manifest validation passed.

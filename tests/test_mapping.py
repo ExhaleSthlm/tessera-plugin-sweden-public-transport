@@ -13,41 +13,74 @@ TREE = Path(os.environ.get('TESSERA_TREE', '../homeassistant_espscreen'))
 sys.path.insert(0, str(TREE / 'screen_manager/app'))
 import plugin_manifest
 import plugin_fetch
+from plugins import Plugins
 
 MANIFEST = plugin_manifest.check(yaml.safe_load((ROOT / 'tessera-plugin.yaml').read_text()),
     json.loads((ROOT / 'translations/en.json').read_text()))
-SPEC = MANIFEST['fetch'][0]['map']
+FETCH = next(f for f in MANIFEST['fetch'] if f['id'] == 'departures')
+SPEC = FETCH['map']
 
 def departure(line='163', destination='Bredäng', time='2026-10-17T14:05:00', mode='BUS', canceled=False, rt=True):
     return {'route': {'designation': line, 'direction': destination, 'transport_mode': mode},
             'realtime': time, 'scheduled': '2026-10-17T14:04:00', 'is_realtime': rt, 'canceled': canceled}
 
-def mapped(items, **options):
-    return plugin_fetch.apply_map(SPEC, {'departures': items}, options)['items']
+def picks(*lines):
+    return [{'value': line, 'label': line} for line in lines]
+
+def mapped(items, lines=('163',), **options):
+    chosen = {**options, 'selected_lines': picks(*lines)}
+    answers = [({'departures': items}, values, pick) for values, pick in Plugins.asks(FETCH, chosen)]
+    return plugin_fetch.apply_each(SPEC, answers)['items']
 
 class MappingTests(unittest.TestCase):
     def test_two_bus_lines_both_directions_exclude_other_lines_and_cancelled(self):
         data = [departure('163', 'Bredäng'), departure('163', 'Kärrtorp'),
                 departure('816', 'Tyresö centrum'), departure('816', 'Gullmarsplan'),
                 departure('18', 'Alvik', mode='METRO'), departure(canceled=True)]
-        result = mapped(data, line='163', line2='816', mode='BUS')
+        result = mapped(data, lines=('163', '816'), mode='BUS')
         self.assertEqual([r['to'] for r in result], ['Bredäng','Kärrtorp','Tyresö centrum','Gullmarsplan'])
     def test_metro_area_with_bus_services(self):
         result = mapped([departure(), departure('18','Farsta strand',mode='METRO'),
-                         departure('18','Alvik',mode='METRO')], mode='METRO')
+                         departure('18','Alvik',mode='METRO')], lines=('18',), mode='METRO')
         self.assertEqual(len(result), 2)
         self.assertEqual({r['line'] for r in result}, {'18'})
-    def test_empty_filters_include_all_and_second_line_alone_works(self):
-        data = [departure('163'), departure('816')]
-        self.assertEqual(len(mapped(data)),2)
-        self.assertEqual([r['line'] for r in mapped(data,line2='816')],['816'])
+    def test_empty_selection_does_not_ask_or_show_unfiltered_departures(self):
+        self.assertEqual(Plugins.asks(FETCH, {'selected_lines': []}), [])
+        self.assertEqual(mapped([departure('163'), departure('816')], lines=()), [])
+        self.assertEqual([r['line'] for r in mapped([departure('163'), departure('816')], lines=('816',))], ['816'])
+
+    def test_all_line_picks_share_one_stop_request_and_choice_cache(self):
+        chosen = {'stop': {'value': '740065542', 'label': 'Dalens sjukhus'},
+                  'selected_lines': picks('163', '816')}
+        requests = [plugin_fetch.fill(FETCH, values, {'api_key': 'test-key'})
+                    for values, _ in Plugins.asks(FETCH, chosen)]
+        choice_fetch = next(f for f in MANIFEST['fetch'] if f['id'] == 'lines')
+        requests.append(plugin_fetch.fill(choice_fetch, plugin_fetch.words_of(chosen), {'api_key': 'test-key'}))
+        keys = {plugin_fetch.question(MANIFEST['id'], url, headers) for url, headers in requests}
+        self.assertEqual(len(keys), 1)
+
+    def test_merged_lines_are_sorted_and_limited_together(self):
+        data = [departure('163', time=f'2026-10-17T14:{m:02}:00') for m in range(12, 30, 2)]
+        data += [departure('816', time=f'2026-10-17T14:{m:02}:00') for m in range(11, 30, 2)]
+        result = mapped(data, lines=('163', '816'))
+        self.assertEqual(len(result), 12)
+        self.assertEqual([r['line'] for r in result], ['816', '163'] * 6)
+        self.assertEqual(result[-1]['at'] - result[0]['at'], 11 * 60)
+
+    def test_line_pick_validation_rejects_duplicates_and_old_scalars(self):
+        option = next(o for o in MANIFEST['tiles'][0]['options'] if o['id'] == 'selected_lines')
+        self.assertEqual(plugin_manifest.option_value(option, picks('163', '816')), picks('163', '816'))
+        for invalid in ('163', picks('163', '163'), picks(*(str(i) for i in range(9)))):
+            with self.assertRaises(plugin_manifest.ManifestError):
+                plugin_manifest.option_value(option, invalid)
+
     def test_exact_destination(self):
         result = mapped([departure(destination='Bredäng'),departure(destination='Kärrtorp')], direction='Kärrtorp')
         self.assertEqual([r['to'] for r in result], ['Kärrtorp'])
     def test_sort_before_limit_and_filter_before_limit(self):
         data = [departure('999') for _ in range(20)]
         data += [departure(time=f'2026-10-17T14:{m:02}:00') for m in range(30,10,-1)]
-        result = mapped(data, line='163')
+        result = mapped(data, lines=('163',))
         self.assertEqual(len(result),12)
         self.assertEqual(result[0]['at'],int(datetime(2026,10,17,14,11,tzinfo=ZoneInfo('Europe/Stockholm')).timestamp()))
         self.assertEqual(result[-1]['at']-result[0]['at'],11*60)
