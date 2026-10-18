@@ -1,10 +1,12 @@
 # Follow-up design
 
+Status for plugin 0.2.1 on Tessera 0.4.89. Items under later improvements are proposals, not existing settings.
+
 ## Available in this beta
 
 - Integrated stop search using Trafiklab Stop Lookup and Tessera API 0.12. Searches start after a 300 ms typing pause with at least two characters; searched results are cached for ten minutes.
 - One to eight selected lines with removable choices, optional transport mode and destination; empty destination shows both directions. At least one line is required.
-- A fixed 60-second departure interval. For two distinct stops, a 31-day month estimates 89,280 departure calls, plus lookup traffic, retries and cache resets. Trafiklab Realtime Bronze currently documents 100,000 requests/month and 25/minute. Other clients sharing the key consume the same quota.
+- A fixed 60-second departure interval. For two distinct stops, a 31-day month estimates 89,280 departure calls, plus lookup traffic, retries and cache resets. Trafiklab [Realtime Bronze](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/#api-key-levels) documents 100,000 requests/month and 25/minute (checked 2026-10-18). Other clients sharing the key consume the same quota.
 
 ## Requires Tessera support or a separate Home Assistant integration
 
@@ -34,4 +36,4 @@ The owner approved keeping the documented query method on 2026-10-17. The manife
 - Platform/stop-position display and service alerts in an expanded detail view.
 - Last-successful-update age and a maximum age for showing cached predictions. These need backend timestamps to avoid confusing a repeated cached state with a new fetch.
 - A direction-balanced view, so frequent traffic in one direction cannot crowd out the other. Keep chronological sorting as an alternative.
-- A configuration flow that clears a previous stop selection when the search is changed; the current Tessera option system does not express dependent resets.
+- Automatically clear selected lines when the stop changes. The searchable stop picker is implemented, but dependent line selections still need to be removed manually.

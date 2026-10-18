@@ -1,4 +1,8 @@
-# Validation of 0.2.1
+# Validation
+
+Results are scoped to each version and the checks stated below. Historical notes are not the current repository or deployment status.
+
+## Current version: 0.2.1
 
 Checked on 2026-10-18 against Tessera 0.4.89 / firmware 0.57.0, commit 9f6ab3c68d420f454fb905466696063b1d789049.
 
@@ -9,7 +13,7 @@ Checked on 2026-10-18 against Tessera 0.4.89 / firmware 0.57.0, commit 9f6ab3c68
 - CI is pinned to the released 0.4.89 core. No API keys or live Trafiklab requests were used for validation.
 - Not tested here: interactive selection in the user's running HA editor, a cross-compiled ESP32 firmware image, or installation on physical hardware. Old scalar stop/line settings require reselection as documented.
 
-# Validation of 0.1.3
+## Historical validation: 0.1.3
 
 - Fourteen mapper tests and API 0.10 manifest validation passed.
 - Final layout rendered on all four default boards, including additional 1x3 grids: zero warnings. The preview run started before the version-only bump from 0.1.2 to 0.1.3.
@@ -17,7 +21,7 @@ Checked on 2026-10-18 against Tessera 0.4.89 / firmware 0.57.0, commit 9f6ab3c68
 - GitHub Actions now use checkout v5, setup-python v6 and upload-artifact v6; all declare Node.js 24. YAML and shell syntax checked locally; hosted CI must run after push.
 - No physical firmware installation performed.
 
-# Validation of 0.1.2
+## Historical validation: 0.1.2
 
 - Manifest validation against API 0.10: passed.
 - Fourteen deterministic mapper tests: passed, including line-choice deduplication, sorting, independent selection and empty responses.
@@ -25,7 +29,7 @@ Checked on 2026-10-18 against Tessera 0.4.89 / firmware 0.57.0, commit 9f6ab3c68
 - Editor source reviewed: dependent choices reload with the stop, but do not expose a clear/empty entry in Tessera 0.4.88. This limitation is documented.
 - Live editor interaction and physical screen installation have not been tested for this version.
 
-# Validation of 0.1.1
+## Historical validation: 0.1.1
 
 Checked on 2026-10-17.
 
@@ -35,7 +39,7 @@ Checked on 2026-10-17.
 - Visually checked compact source credit and three departure rows on Guition, plus small and large screen previews and the regenerated store image.
 - Firmware has not been installed on the physical screen by this change.
 
-# Validation of 0.1.0
+## Historical validation: 0.1.0
 
 Checked on 2026-10-17.
 
@@ -60,4 +64,4 @@ Not yet verified:
 
 Authentication decision: the owner approved the documented query method; the manifest uses a secret placeholder. Candidate headers returned HTTP 400 and are not used.
 
-No firmware was uploaded and no GitHub commit, push or release was made.
+At the end of the initial 0.1.0 validation, no firmware had been uploaded and no GitHub commit, push or release had been made. Subsequent commits and pushes are recorded in Git history.
