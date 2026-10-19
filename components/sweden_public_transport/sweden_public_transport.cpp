@@ -29,10 +29,11 @@ class NextTile : public tessera::Tile {
     // Wide cards use a list even in a one-column screen grid.
     list_ = c.columns >= 2 || c.width >= ui::px(280);
     height_ = c.height - ui::line_height(Font::BODY) - ui::px(list_ ? 1 : 3);
-    credit_width_ = ui::text_width(plugin_->text("attribution"), Font::BODY);
     attribution_ = ui::label(c.parent, Font::BODY, theme::MUTED);
-    lv_obj_set_size(attribution_, credit_width_, ui::line_height(Font::BODY));
-    lv_obj_set_pos(attribution_, c.width - credit_width_, c.height - ui::line_height(Font::BODY));
+    // The source credit alternates with a translated warning; both get the full footer width.
+    lv_obj_set_size(attribution_, c.width, ui::line_height(Font::BODY));
+    lv_obj_set_style_text_align(attribution_, LV_TEXT_ALIGN_RIGHT, 0);
+    lv_obj_set_pos(attribution_, 0, c.height - ui::line_height(Font::BODY));
     ui::set_text(attribution_, plugin_->text("attribution"));
     walk_ = c.options["walk"] | 0;
     has_stop_ = !std::string(c.options["stop"]["value"] | "").empty();
@@ -251,7 +252,7 @@ class NextTile : public tessera::Tile {
   }
 
   const tessera::Plugin *plugin_;
-  int credit_width_ = 0, width_ = 0, height_ = 0, head_ = 0, gap_ = 0, walk_ = 0;
+  int width_ = 0, height_ = 0, head_ = 0, gap_ = 0, walk_ = 0;
   bool list_ = false, has_stop_ = false, has_lines_ = false, stale_ = false, late_ = true;
   tessera::Text wait_;
   tessera::List<Row> rows_;

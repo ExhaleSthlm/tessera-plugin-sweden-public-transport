@@ -2,7 +2,17 @@
 
 Results are scoped to each version and the checks stated below. Historical notes are not the current repository or deployment status.
 
-## Current version: 0.2.1
+## Current version: 0.2.2
+
+Checked on 2026-10-19 against Tessera 0.4.89 / firmware 0.57.0.
+
+- Manifest validation and whitespace checks passed.
+- Strict host compilation/rendering on CYD, Guition, Waveshare portrait and Guition 10.1-inch passed with zero warnings.
+- Added a stale-data fixture with cached departures using epoch timestamps; inspected small and large tile renders in the resulting preview set. The source/warning label now uses the full tile content width and right alignment, without changing its height or departure positions.
+- Regenerated store.png. No physical firmware installation performed; a firmware rebuild is needed for this C++ change.
+- Data mapping is unchanged; the 19 mapper test results below belong to 0.2.1 and were not rerun for this layout-only fix.
+
+## Historical validation: 0.2.1
 
 Checked on 2026-10-18 against Tessera 0.4.89 / firmware 0.57.0, commit 9f6ab3c68d420f454fb905466696063b1d789049.
 

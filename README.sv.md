@@ -5,7 +5,7 @@
 [English](README.md) · [Ändringslogg](CHANGELOG.md) · [Testresultat](VALIDATION.md)
 
 Avgångar från Trafiklab Timetables på din ESP32-skärm. Installera pluginen en gång och lägg till flera rutor med egna hållplatser och filter.
-Anvisningarna gäller pluginversion **0.2.1**. Kräver plugin-API 0.12: Tessera 0.4.89 och skärmfirmware 0.57.0 eller senare kompatibel version.
+Anvisningarna gäller pluginversion **0.2.2**. Kräver plugin-API 0.12: Tessera 0.4.89 och skärmfirmware 0.57.0 eller senare kompatibel version.
 
 ## Installation
 
@@ -35,7 +35,7 @@ Tomt destinationsfilter visar båda riktningarna. Destinationen visas på varje 
 
 ## Uppgradering från 0.1.x eller 0.2.0
 
-Uppdatera först Tessera till 0.4.89 eller en senare kompatibel version och uppdatera sedan denna plugin till 0.2.1 i Tesseras pluginvy. Från 0.1.x behöver du välja hållplats igen i den nya sökväljaren. Från både 0.1.x och 0.2.0 behöver du välja linjer igen under **Linjer**; pluginen kan inte automatiskt konvertera de gamla två linjefälten. Spara/skicka layouten och bygg om/installera skärmens firmware. Gångtid, trafikslag, destinationsfilter och förseningsinställning behåller sina fält-ID:n.
+Uppdatera först Tessera till 0.4.89 eller en senare kompatibel version och uppdatera sedan denna plugin till 0.2.2 i Tesseras pluginvy. Från 0.1.x behöver du välja hållplats igen i den nya sökväljaren. Från både 0.1.x och 0.2.0 behöver du välja linjer igen under **Linjer**; pluginen kan inte automatiskt konvertera de gamla två linjefälten. Spara/skicka layouten och bygg om/installera skärmens firmware. Gångtid, trafikslag, destinationsfilter och förseningsinställning behåller sina fält-ID:n.
 
 ## På skärmen
 
@@ -44,7 +44,7 @@ Uppdatera först Tessera till 0.4.89 eller en senare kompatibel version och uppd
 - Gångtiden filtrerar bort avgångar du inte hinner till; nedräkningen visar tiden till avgång, inte tiden tills du behöver gå.
 - Inställda avgångar visas inte. ”Inga avgångar” betyder att inga avgångar matchar valen och gångtiden i API:ets fönster på kommande 60 minuter.
 - Källhänvisningen Trafiklab.se använder temats minsta textstorlek och ligger separat under avgångarna, så att alla tider ligger på samma lodräta linje.
-- Vid hämtningsfel visas tidigare data med varningen ”Gamla tider”, växelvis med källhänvisningen Trafiklab.se.
+- Vid hämtningsfel visas tidigare data med varningen ”Gamla tider”, växelvis med källhänvisningen Trafiklab.se. Båda texterna är högerställda och kan använda hela bredden under avgångarna.
 
 Varje hållplats hämtas var 60:e sekund och delar svar mellan rutorna. Två hållplatser dygnet runt motsvarar cirka 89 280 avgångsanrop på 31 dagar, plus sökningar, omstarter och eventuella återförsök. Sökningen startar efter en kort skrivpaus och Tessera cachar sökträffar i tio minuter. [Realtime Brons](https://www.trafiklab.se/api/our-apis/trafiklab-realtime-apis/#api-key-levels) har enligt kontroll 2026-10-18 gränserna 100 000 anrop/månad och 25/minut; standarden ryms inom den kvoten för två hållplatser. Fler hållplatser eller andra appar med samma nyckel behöver räknas med.
 

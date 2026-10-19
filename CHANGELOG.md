@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2
+- Give the translated old-data warning the full footer width, keeping it right-aligned below the departures.
+- Rebuild and install screen firmware to apply the fix; existing tile settings are unchanged.
+
 ## 0.2.1
 - Replace the two line dropdowns with one removable selection of up to eight lines.
 - At least one line is required; removing all selections shows Choose lines and stops departure polling for that tile.

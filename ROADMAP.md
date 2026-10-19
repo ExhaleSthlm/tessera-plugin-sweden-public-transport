@@ -1,6 +1,6 @@
 # Follow-up design
 
-Status for plugin 0.2.1 on Tessera 0.4.89. Items under later improvements are proposals, not existing settings.
+Status for plugin 0.2.2 on Tessera 0.4.89. Items under later improvements are proposals, not existing settings.
 
 ## Available in this beta
 

@@ -6,7 +6,7 @@
 
 Swedish public transport departures on Tessera ESP32 screens, using Trafiklab Timetables.
 Install once and add multiple tiles, each with its own stop, one to eight selected lines, transport mode and optional destination.
-These instructions describe plugin **0.2.1**. Swedish and English translations are included. This beta requires Tessera plugin API 0.12 (Tessera 0.4.89 / firmware 0.57.0 or later compatible versions).
+These instructions describe plugin **0.2.2**. Swedish and English translations are included. This beta requires Tessera plugin API 0.12 (Tessera 0.4.89 / firmware 0.57.0 or later compatible versions).
 
 ## Set up
 
@@ -33,7 +33,7 @@ The IDs above are for reference; the search picker stores them for you. Both exa
 
 ## Upgrading from 0.1.x or 0.2.0
 
-Update Tessera to 0.4.89 or a later compatible version first, then update this plugin to 0.2.1 in Tessera’s Plugins view. When upgrading from 0.1.x, select the stop again in the new searchable picker. When upgrading from either 0.1.x or 0.2.0, select the lines again in the new **Lines** control; the previous two scalar line fields cannot be converted automatically by the plugin. Save/send the layout and rebuild/install the screen firmware. Existing walking time, mode, destination and delay settings keep their option IDs.
+Update Tessera to 0.4.89 or a later compatible version first, then update this plugin to 0.2.2 in Tessera’s Plugins view. When upgrading from 0.1.x, select the stop again in the new searchable picker. When upgrading from either 0.1.x or 0.2.0, select the lines again in the new **Lines** control; the previous two scalar line fields cannot be converted automatically by the plugin. Save/send the layout and rebuild/install the screen firmware. Existing walking time, mode, destination and delay settings keep their option IDs.
 
 ## Reading the tile
 
@@ -41,7 +41,7 @@ Update Tessera to 0.4.89 or a later compatible version first, then update this p
 - `+2` means two minutes late. `TT` means timetable only, without a realtime prediction.
 - Walking time hides departures you cannot reach. The countdown still shows time until departure, not time to leave home.
 - Canceled departures are omitted. Empty results say “No departures”; this covers the API's next 60 minutes only.
-- “Old data” means the last successful response is being shown after a fetch failure. The source credit alternates this warning and the data attribution.
+- “Old data” means the last successful response is being shown after a fetch failure. The source credit alternates this warning and the data attribution. Both use the full footer width and are right-aligned.
 - The compact source credit shows Trafiklab.se in the smallest theme text size. It sits below the departures, keeping all departure times aligned. Row spacing tightens where needed to fit three departures plus the credit on Guition 1×3. The editor's simplified preview does not reproduce every screen annotation.
 
 ## Requests and limits

@@ -41,6 +41,18 @@ tiles:
     stop: {value: '740065542', label: Dalens sjukhus}
     selected_lines: []
   sizes: [1x1]
+- tile: next
+  name: Gamla tider
+  options:
+    stop: {value: '740065542', label: Dalens sjukhus}
+    selected_lines: [{value: "163", label: "163"}]
+  data:
+    stale: true
+    items:
+    - {line: "163", to: Bredäng, at: "{epoch+4m}", plan: "{epoch+4m}", rt: 1}
+    - {line: "163", to: Kärrtorp, at: "{epoch+8m}", plan: "{epoch+8m}", rt: 1}
+    - {line: "163", to: Bredäng, at: "{epoch+12m}", plan: "{epoch+12m}", rt: 1}
+  sizes: [1x1, 2x1]
 answers:
   departures:
     departures:
